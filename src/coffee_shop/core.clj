@@ -37,6 +37,8 @@
    :afternoon (run-shift :afternoon)
    :evening (run-shift :evening)})
 
+;; TODO -- Figure out how to do this with less 
+;; running around in circles
 (defn coffee-shop [days]
   (loop [day 1
          history (sorted-map)]
