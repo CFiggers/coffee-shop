@@ -2,7 +2,6 @@
   (:gen-class)
   (:require [clojure.spec.alpha :as s]))
 
-
 (s/def :core/volume int?)
 (s/def :core/temp int?)
 (s/def :core/taste int?)
@@ -47,7 +46,8 @@
       (recur (inc day)
              (assoc history day (run-day))))))
 
-;; (coffee-shop 4) 
+;; TODO -- Baristas?
+;; TODO -- Customers?
 
 (defn -main
   "I don't do a whole lot ... yet."
