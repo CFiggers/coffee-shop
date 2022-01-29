@@ -43,12 +43,27 @@
        (+ (:coffees morning)
           (:coffees afternoon)
           (:coffees evening)))))
+;; TODO -- Break this into multiple funcs
+(defn coffee-shop [difficulty days]
+  "1 difficulty = easy, 2 = medium, 3 = hard"
+  (if (and (< difficulty 4) (> difficulty 0))
   (loop [day 1
-         history (sorted-map)]
+           history (sorted-map)
+           money (* 1000 (- 4 difficulty))]
     (if (> day days)
       history
+        (let [thisday (run-day)
+              rent 250
+              wages 250
+              newmoney (- money rent wages)
+              plusprofit (+ newmoney (profit thisday))]
+          (if (< newmoney 0)
+            (str "You went bankrupt on day " day)
+            (do (println (str "You have $" newmoney " left"))
       (recur (inc day)
-             (assoc history day (run-day))))))
+                       (assoc history day thisday)
+                       plusprofit))))))
+    "Difficulty must be 1-3!"))
 
 ;; (coffee-shop 4) 
 
