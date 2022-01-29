@@ -37,6 +37,7 @@
    :afternoon (run-shift :afternoon)
 :evening (run-shift :evening)}) ;; => {:morning {:coffees 121}, :afternoon {:coffees 38}, :evening {:coffees 13}}
 
+
 (defn profit [{:keys [morning afternoon evening]}]
   (let [coffee-price 5]
     (* coffee-price
