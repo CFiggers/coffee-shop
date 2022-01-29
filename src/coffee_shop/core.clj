@@ -35,7 +35,7 @@
 (defn run-day []
   {:morning (run-shift :morning)
    :afternoon (run-shift :afternoon)
-   :evening (run-shift :evening)})
+:evening (run-shift :evening)}) ;; => {:morning {:coffees 121}, :afternoon {:coffees 38}, :evening {:coffees 13}}
 
 (defn profit [{:keys [morning afternoon evening]}]
   (let [coffee-price 5]
@@ -43,15 +43,16 @@
        (+ (:coffees morning)
           (:coffees afternoon)
           (:coffees evening)))))
+
 ;; TODO -- Break this into multiple funcs
 (defn coffee-shop [difficulty days]
   "1 difficulty = easy, 2 = medium, 3 = hard"
   (if (and (< difficulty 4) (> difficulty 0))
-  (loop [day 1
+    (loop [day 1
            history (sorted-map)
            money (* 1000 (- 4 difficulty))]
-    (if (> day days)
-      history
+      (if (> day days)
+        history
         (let [thisday (run-day)
               rent 250
               wages 250
@@ -60,7 +61,7 @@
           (if (< newmoney 0)
             (str "You went bankrupt on day " day)
             (do (println (str "You have $" newmoney " left"))
-      (recur (inc day)
+                (recur (inc day)
                        (assoc history day thisday)
                        plusprofit))))))
     "Difficulty must be 1-3!"))
@@ -69,5 +70,5 @@
 
 (defn -main
   "I don't do a whole lot ... yet."
-  [arg & args]
-  (println (coffee-shop (Integer. arg))))
+  [difficulty days & args]
+  (println (coffee-shop (Integer. arg) (Integer. arg))))
