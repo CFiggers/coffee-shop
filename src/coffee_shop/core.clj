@@ -37,15 +37,11 @@
    :afternoon (run-shift :afternoon)
    :evening (run-shift :evening)})
 
-;; TODO -- Figure out how to do this with less 
-;; running around in circles
+;;DONE -- Figured out how to do this, man
 (defn coffee-shop [days]
-  (loop [day 1
-         history (sorted-map)]
-    (if (> day days)
-      history
-      (recur (inc day)
-             (assoc history day (run-day))))))
+    (into (sorted-map)
+          (map (fn [i] (vector i (run-day)))
+               (range 1 (inc days)))))
 
 ;; (coffee-shop 4) 
 
