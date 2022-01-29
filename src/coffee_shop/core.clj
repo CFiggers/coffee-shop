@@ -45,8 +45,9 @@
           (:coffees evening)))))
 
 ;; TODO -- Break this into multiple funcs
-(defn coffee-shop [difficulty days]
+(defn coffee-shop 
   "1 difficulty = easy, 2 = medium, 3 = hard"
+  [difficulty days]
   (if (and (< difficulty 4) (> difficulty 0))
     (loop [day 1
            history (sorted-map)
@@ -71,5 +72,5 @@
 
 (defn -main
   "I don't do a whole lot ... yet."
-  [difficulty days & args]
-  (println (coffee-shop (Integer. arg) (Integer. arg))))
+  [difficulty days]
+  (println (coffee-shop (Integer. difficulty) (Integer. days))))
