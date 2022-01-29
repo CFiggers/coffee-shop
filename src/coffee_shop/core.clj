@@ -37,7 +37,12 @@
    :afternoon (run-shift :afternoon)
    :evening (run-shift :evening)})
 
-(defn coffee-shop [days]
+(defn profit [{:keys [morning afternoon evening]}]
+  (let [coffee-price 5]
+    (* coffee-price
+       (+ (:coffees morning)
+          (:coffees afternoon)
+          (:coffees evening)))))
   (loop [day 1
          history (sorted-map)]
     (if (> day days)
