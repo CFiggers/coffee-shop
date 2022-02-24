@@ -7,9 +7,11 @@
 (s/def :barista/name string?)
 (s/def :barista/skill :barista/stat)
 (s/def :barista/speed :barista/stat)
+(s/def :barista/accuracy :barista/stat)
 (s/def :barista/barista (s/keys :req [:barista/name
                                       :barista/skill
-                                      :barista/speed]))
+                                      :barista/speed
+                                      :barista/accuracy]))
 
 (def barista-names
   ["Sonnie" "Tymothy" "Sybil" "Porty" "Coriss" "Ileane" "Brandea" "Claudius" "Elbertine" "Rickey"
@@ -26,5 +28,8 @@
 (defn gen-barista []
   {:barista/name (barista-names (dec (rand-int 100)))
    :barista/skill (inc (rand-int 5))
-   :barista/speed (inc (rand-int 5))})
+   :barista/speed (inc (rand-int 5))
+   :barista/accuracy (inc (rand-int 5))})
+
+;; (gen-barista)
 
