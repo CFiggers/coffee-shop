@@ -2,29 +2,6 @@
   (:gen-class)
   (:require [clojure.spec.alpha :as s]))
 
-(s/def :core/volume int?)
-(s/def :core/temp int?)
-(s/def :core/taste int?)
-(s/def :core/milk (s/keys :req [:core/volume
-                                :core/temp
-                                :core/taste]))
-(s/def :core/espresso (s/keys :req [:core/volume
-                                    :core/temp
-                                    :core/taste]))
-(s/def :core/latte (s/keys :req [:core/milk
-                                 :core/espresso]))
-
-
-(def a-latte
-  {:core/milk {:core/volume 400
-               :core/temp 100
-               :core/taste 10}
-   :core/espresso {:core/volume 40
-                   :core/temp 100
-                   :core/taste 10}})
-
-;; (s/conform :core/latte a-latte)
-
 (defn run-shift [shift]
   (case shift
     :morning {:coffees (+ (rand-int 50) 75)}
@@ -66,9 +43,6 @@
                        (assoc history day thisday)
                        plusprofit))))))
     "Difficulty must be 1-3!"))
-
-;; TODO -- Baristas?
-;; TODO -- Customers?
 
 (defn -main
   "I don't do a whole lot ... yet."
