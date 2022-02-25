@@ -24,7 +24,9 @@
 
 (def testcustomer-after
   {:customer/order [{:order/item :coffee/latte
-                     :order/quantity 2}]
+                     :order/quantity 2}
+                    {:order/item :coffee/pour-over
+                     :order/quantity 1}]
    :customer/filled-order {1 {:coffee/milk {:coffee/volume 400
                                             :coffee/temp 100
                                             :coffee/taste 10}
@@ -41,3 +43,20 @@
 
 (s/valid? :customer/customer testcustomer-before)
 (s/valid? :customer/customer testcustomer-after)
+
+(defn check-order-item [item filled-items]
+  (let [type (item :order/item)
+        number (item :order/quantity)]
+    (= number (reduce + (map #(if (s/valid? type %) 1 0) filled-items)))))
+
+(defn check-order-accurate [customer-after]
+  (when (customer-after :customer/filled-order)
+    (let [order (customer-after :customer/order)
+          drinks (vals (customer-after :customer/filled-order))]
+      (reduce #(and %1 %2) (map #(check-order-item % drinks) order)))))
+
+(check-order-accurate testcustomer-after)
+
+(defn check-order-quality [customer-after]
+  (when (customer-after :customer/filled-order)
+    ))
