@@ -5,7 +5,10 @@
                             #(< 0 %)
                             #(> 11 %)))
 (s/def :equip/name string?)
-(s/def :equip/type #{:equip/espresso-machine})
+(s/def :equip/type #{:equip/espresso-machine
+                     :equip/grinder
+                     :equip/v60
+                     :equip/milk-steamer})
 (s/def :shop/equipment (s/keys :req [:equip/type
                                      :equip/name
                                      :equip/quality]))
@@ -15,6 +18,11 @@
   {:equip/type :equip/espresso-machine
    :equip/name "Old Espresso Machine"
    :equip/quality 5})
+
+(def average-grinder
+  {:equip/type :equip/grinder
+   :equip/name "Average Grinder"
+   :equip/quality 6})
 
 ;; (s/valid? :shop/equipment old-espresso-machine) => true
 
@@ -32,3 +40,6 @@
    :shop/ambiance 5})
 
 ;; (s/valid? :shop/shop starting-shop) => true
+
+;; (defn shop-value [] 
+;;     )
