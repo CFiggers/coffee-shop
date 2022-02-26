@@ -1,6 +1,7 @@
 (ns coffee-shop.customer
   (:require [clojure.spec.alpha :as s]
-            [coffee-shop.coffee :as c]))
+            [coffee-shop.coffee :as c]
+            [clojure.walk :as w]))
 
 (s/def :customer/satisfaction (s/and int?
                                      #(< % 101)
@@ -35,28 +36,52 @@
                                                 :coffee/taste 10}}
                            2 {:coffee/milk {:coffee/volume 400
                                             :coffee/temp 100
-                                            :coffee/taste 10}
+                                            :coffee/taste 8}
                               :coffee/espresso {:coffee/volume 40
                                                 :coffee/temp 100
-                                                :coffee/taste 10}}}
+                                                :coffee/taste 5}}}
    :customer/satisfaction 50})
 
 (s/valid? :customer/customer testcustomer-before)
 (s/valid? :customer/customer testcustomer-after)
 
 (defn check-order-item [item filled-items]
-  (let [type (item :order/item)
-        number (item :order/quantity)]
-    (= number (reduce + (map #(if (s/valid? type %) 1 0) filled-items)))))
+  (->> filled-items
+       (map #(if (s/valid? (item :order/item) %) 1 0))
+       (reduce +)
+       (= (item :order/quantity))))
 
 (defn check-order-accurate [customer-after]
   (when (customer-after :customer/filled-order)
-    (let [order (customer-after :customer/order)
-          drinks (vals (customer-after :customer/filled-order))]
-      (reduce #(and %1 %2) (map #(check-order-item % drinks) order)))))
+    (->> customer-after
+         :customer/order
+         (map #(check-order-item % (vals (customer-after :customer/filled-order))))
+         (reduce #(and %1 %2)))))
 
 (check-order-accurate testcustomer-after)
 
-(defn check-order-quality [customer-after]
-  (when (customer-after :customer/filled-order)
-    ))
+;; TODO - check-order-accuracy that returns a ratio
+
+(defn get-leaves [in-map]
+  (->> in-map
+       (map #(if (map? (second %))
+               (get-leaves (second %))
+               %))
+       flatten
+       (partition 2)))
+
+(defn extract [key in-map] 
+  (filter #(= (first %) key) 
+          (get-leaves in-map)))
+
+
+(defn check-order-quality [in-map]
+  (->> in-map
+       :customer/filled-order
+       (extract :coffee/taste)
+       (map second)
+       (#(int (/ (apply + %) (count %))))))
+
+(check-order-quality testcustomer-after)
+
+;; TODO - defn satisfaction to calculate :customer/satisfaction update
