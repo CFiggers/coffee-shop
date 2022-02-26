@@ -41,5 +41,24 @@
 
 ;; (s/valid? :shop/shop starting-shop) => true
 
-;; (defn shop-value [] 
-;;     )
+(defn equip-value [equip]
+  (* 100  (:equip/quality equip)))
+
+(defn employee-value [emp]
+  (let [speed (:barista/speed emp)
+        skill (:barista/skill emp)
+        accuracy (:barista/accuracy emp)]
+  (* 1000 speed skill accuracy)))
+
+(defn ambiance-value [amb]
+  (* 1000 amb))
+
+(defn shop-value [{:keys [shop/employees
+                          shop/equipments
+                          shop/ambiance]}]
+    (apply + 
+           (apply + (map equip-value equipments))
+           (apply + (map employee-value (vals employees)))
+           (ambiance-value ambiance)))
+
+(shop-value starting-shop)
