@@ -13,8 +13,4 @@ pom.xml.asc
 /.calva
 /.clj-kondo
 /.lsp
-<<<<<<< HEAD
 .portal/
-=======
-.portal/
->>>>>>> master
