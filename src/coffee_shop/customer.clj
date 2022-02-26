@@ -1,7 +1,6 @@
 (ns coffee-shop.customer
   (:require [clojure.spec.alpha :as s]
-            [com.rpl.specter :refer :all]
-            [clojure.math]))
+            [com.rpl.specter :refer :all]))
 
 (s/def :customer/satisfaction (s/and int?
                                      #(< % 101)
@@ -40,30 +39,38 @@
                               :coffee/espresso {:coffee/volume 40
                                                 :coffee/temp 100
                                                 :coffee/taste 5}}
-                           3 {:coffee/taste 10
-                              :coffee/volume 200
-                              :coffee/temp 100}}
+                           3 {:coffee/volume 200
+                              :coffee/temp 100
+                              :coffee/taste 10}}
    :customer/satisfaction 50})
 
 ;; (s/valid? :customer/customer testcustomer-before)
 ;; (s/valid? :customer/customer testcustomer-after)
 
 (defn check-order-item [item filled-items]
-  (->> filled-items
-       (map #(if (s/valid? (item :order/item) %) 1 0))
-       (reduce +)
-       (= (item :order/quantity))))
+  (let [hits (->> filled-items
+                  (map #(if (s/valid? (item :order/item) %) 1 0))
+                  (reduce +))]
+    [(= (item :order/quantity) hits) hits]))
 
 (defn check-order-accurate [customer-after]
   (when (customer-after :customer/filled-order)
     (->> customer-after
          :customer/order
-         (map #(check-order-item % (vals (customer-after :customer/filled-order))))
+         (map #(first (check-order-item % (vals (customer-after :customer/filled-order)))))
          (reduce #(and %1 %2)))))
 
-(check-order-accurate testcustomer-after)
+(defn check-order-accuracy [customer-after]
+  (when (customer-after :customer/filled-order)
+    (let [order (:customer/order customer-after)]
+      (Math/round (double
+                   (* 10 (/ (->> order
+                                 (map #(second (check-order-item % (vals (customer-after :customer/filled-order)))))
+                                 (reduce +))
+                            (apply + (select [(walker :order/quantity) :order/quantity] order)))))))))
 
-;; TODO - check-order-accuracy that returns a ratio
+(check-order-accurate testcustomer-after)
+(check-order-accuracy testcustomer-after)
 
 ;; (defn get-leaves [in-map]
 ;;   (->> in-map
@@ -84,4 +91,18 @@
 
 (check-order-quality testcustomer-after)
 
-;; TODO - defn satisfaction to calculate :customer/satisfaction update
+(defn satisfaction-delta [customer-after]
+  (when (customer-after :customer/filled-order)
+    (let [accuracy (- (check-order-accuracy customer-after) 10)
+          quality (check-order-quality customer-after)]
+      (+ accuracy quality))))
+
+(satisfaction-delta testcustomer-after)
+
+(defn apply-satisfaction [customer-after]
+  (when (customer-after :customer/filled-order)
+    (update customer-after
+            :customer/satisfaction
+            #(+ % (satisfaction-delta customer-after)))))
+
+(apply-satisfaction testcustomer-after)
