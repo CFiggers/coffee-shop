@@ -30,14 +30,17 @@
 (s/def :shop/ambiance (s/and int?
                             #(< 0 %)
                             #(> 11 %)))
+(s/def :shop/cash int?)
 (s/def :shop/shop (s/keys :req [:shop/employees
                                 :shop/equipments
-                                :shop/ambiance]))
+                                :shop/ambiance
+                                :shop/cash]))
 
 (def starting-shop 
   {:shop/employees {"Ardelle" #:barista{:name "Ardelle", :skill 3, :speed 1, :accuracy 3}}
    :shop/equipments [old-espresso-machine]
-   :shop/ambiance 5})
+   :shop/ambiance 5
+   :shop/cash 1000})
 
 ;; (s/valid? :shop/shop starting-shop) => true
 
@@ -55,10 +58,12 @@
 
 (defn shop-value [{:keys [shop/employees
                           shop/equipments
-                          shop/ambiance]}]
-    (apply + 
+                          shop/ambiance
+                          shop/cash]}]
+    (apply +
            (apply + (map equip-value equipments))
            (apply + (map employee-value (vals employees)))
-           (ambiance-value ambiance)))
+           (list (ambiance-value ambiance)
+                 cash)))
 
-(shop-value starting-shop)
+;; (shop-value starting-shop) => 15500

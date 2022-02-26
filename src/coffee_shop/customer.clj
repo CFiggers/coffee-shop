@@ -74,7 +74,6 @@
   (filter #(= (first %) key) 
           (get-leaves in-map)))
 
-
 (defn check-order-quality [in-map]
   (->> in-map
        :customer/filled-order
