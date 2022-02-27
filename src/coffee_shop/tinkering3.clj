@@ -6,8 +6,8 @@
 ;;         (map #(vector % (run-day))
 ;;              (range 1 (inc days)))))
 
-(def db-uri "asami:mem://testdb")
-(d/delete-database db-uri)
+(def db-uri "asami:local://testdb")
+(d/create-database db-uri)
 
 (def conn (d/connect db-uri))
 
@@ -37,8 +37,9 @@
 (print db)
 
 (d/q '[:find ?movie-title ?year
-       :where [?m :movie/title ?movie-title]
-       [?m :movie/release-year ?year]] db)
+       :where 
+         [?m :movie/title ?movie-title]
+         [?m :movie/release-year ?year]] db)
 
 (d/release conn)
 
