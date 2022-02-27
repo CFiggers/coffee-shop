@@ -14,3 +14,4 @@ pom.xml.asc
 /.clj-kondo
 /.lsp
 .portal/
+.cpcache/

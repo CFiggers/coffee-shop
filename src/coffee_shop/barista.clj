@@ -23,13 +23,22 @@
    "Steffen" "Egor" "Reggis" "Ruddie" "Gussie" "Colman" "Edmund" "Neile" "Danya" "Charleen" "Gus"
    "Shannah" "Vanna" "Cullie" "Lina" "Zach" "Fredek" "Irma" "Regina" "Ivar" "Cookie" "Chas"
    "Elijah" "Katya" "Lila" "Klarrisa" "Meta" "Nancie" "Dorry" "Denice" "Elle" "Gavan" "Kevyn" "Terry"
-   "Godfrey"])
+   "Godfrey" "Nancie" "Hilliard" "Angelique" "Fanechka" "Gabriel" "King" "Doreen" "Carolin" "Antony"
+   "Ode" "Ryan" "Dominique" "Tallulah" "Dori" "Koralle" "Aili" "Betsey" "Lanette" "Ricardo" "Shalom"
+   "Netta" "Leif" "Bernette" "Serene" "Sara" "Bengt" "Olwen" "Allin" "Karalynn" "Parsifal" "Konrad"
+   "Giovanni" "Worden" "Reina" "Elnore" "Lorine" "Tildi" "Mechelle" "Ad" "Ruthe" "Jeth" "Wallie"
+   "Noellyn" "Farrand" "Judd" "Dwight" "Cherry" "Mayer" "Tommie" "Ardis" "Delaney" "Saudra" "Orville"
+   "Jerrie" "Sioux" "Sidney" "Audi" "Winifred" "Brooks" "Johanna" "Blisse" "Regan" "Steve" "Di" "Gordy"
+   "Pamela" "Courtenay" "Kessiah" "Erv" "Shellie" "Zebedee" "Care" "Rik" "Melinda" "Latisha" "Shadow"
+   "Abbye" "Robinson" "Cristina" "Dinah" "Nikoletta" "Emilio" "Giffy" "Waylan" "Rubia" "Wallas"
+   "Christine" "Nickie" "Hamil" "Neysa" "Fidelia" "Merla" "Pansie" "Carolus" "Rochell" "Giovanna"
+   "Karisa" "Sherwynd" "Alida" "Hugo"])
 
 (defn gen-barista []
-  {:barista/name (barista-names (dec (rand-int 100)))
+  {:barista/name (barista-names (dec (rand-int 200)))
    :barista/skill (inc (rand-int 5))
    :barista/speed (inc (rand-int 5))
    :barista/accuracy (inc (rand-int 5))})
 
-;; (gen-barista)
+(gen-barista)
 
