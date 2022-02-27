@@ -37,7 +37,10 @@
                                 :shop/cash]))
 
 (def starting-shop 
-  {:shop/employees {"Ardelle" #:barista{:name "Ardelle", :skill 3, :speed 1, :accuracy 3}}
+  {:shop/employees {"Ardelle" #:barista{:name "Ardelle", 
+                                        :skill 3, 
+                                        :speed 1, 
+                                        :accuracy 3}}
    :shop/equipments [old-espresso-machine]
    :shop/ambiance 5
    :shop/cash 1000})
