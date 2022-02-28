@@ -39,9 +39,9 @@
                               :coffee/espresso {:coffee/volume 40
                                                 :coffee/temp 100
                                                 :coffee/taste 5}}
-                           3 {:coffee/volume 200
-                              :coffee/temp 100
-                              :coffee/taste 10}}
+                           3 {:coffee/taste 10
+                              :coffee/volume 200
+                              :coffee/temp 100}}
    :customer/satisfaction 50})
 
 ;; (s/valid? :customer/customer testcustomer-before)
@@ -63,11 +63,14 @@
 (defn check-order-accuracy [customer-after]
   (when (customer-after :customer/filled-order)
     (let [order (:customer/order customer-after)]
-      (Math/round (double
-                   (* 10 (/ (->> order
-                                 (map #(second (check-order-item % (vals (customer-after :customer/filled-order)))))
-                                 (reduce +))
-                            (apply + (select [(walker :order/quantity) :order/quantity] order)))))))))
+      (Math/round
+       (double
+        (* 10
+           (/
+            (->> order
+                 (map #(second (check-order-item % (vals (customer-after :customer/filled-order)))))
+                 (reduce +))
+            (apply + (select [(walker :order/quantity) :order/quantity] order)))))))))
 
 (check-order-accurate testcustomer-after)
 (check-order-accuracy testcustomer-after)
@@ -91,9 +94,12 @@
 
 (check-order-quality testcustomer-after)
 
+;; Update accuracy-factor to make missing or wrong drinks more or less
+;; impactful to the customer's satisfaction.
 (defn satisfaction-delta [customer-after]
   (when (customer-after :customer/filled-order)
-    (let [accuracy (- (check-order-accuracy customer-after) 10)
+    (let [accuracy-factor 3
+          accuracy (* accuracy-factor (- (check-order-accuracy customer-after) 10))
           quality (check-order-quality customer-after)]
       (+ accuracy quality))))
 
