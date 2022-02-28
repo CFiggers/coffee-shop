@@ -20,7 +20,13 @@
                                #(< (% :coffee/volume) 100)))
 (s/def :coffee/latte (s/keys :req [:coffee/milk
                                    :coffee/espresso]))
-
+(s/def :coffee/frappuccino (s/and :coffee/latte
+                                  #(< (:coffee/temp
+                                       (% :coffee/milk))
+                                      49)
+                                  #(< (:coffee/temp
+                                       (% :coffee/espresso))
+                                      49)))
 (s/def :coffee/mocha (s/keys :req [:coffee/latte
                                    :coffee/chocolate]))
 (s/def :coffee/cappuccino (s/and :coffee/latte
@@ -28,16 +34,17 @@
                                       (% :coffee/milk)) 200)))
 (s/def :coffee/pour-over (s/and :coffee/brew
                                 #(> (% :coffee/volume) 190)
-                                #(> (% :coffee/temp) 50)))
+                                #(> (% :coffee/temp) 35)))
 (s/def :coffee/cold-brew (s/and :coffee/brew
                                 #(> (% :coffee/volume) 190)
-                                #(< (% :coffee/temp) 50)))
+                                #(< (% :coffee/temp) 35)))
 (s/def :coffee/americano (s/keys :req [:coffee/espresso
                                        :coffee/water]))
 (s/def :coffee/drink-type #{:coffee/americano
                             :coffee/cappuccino
                             :coffee/cold-brew
                             :coffee/espresso
+                            :coffee/frappuccino
                             :coffee/latte
                             :coffee/mocha
                             :coffee/pour-over})
@@ -60,6 +67,16 @@
                      :coffee/taste 10}})
 
 ;; (s/conform :coffee/drink a-latte)
+
+(def a-frappuccino
+  {:coffee/milk {:coffee/volume 400
+                 :coffee/temp 32
+                 :coffee/taste 10}
+   :coffee/espresso {:coffee/volume 40
+                     :coffee/temp 32
+                     :coffee/taste 10}})
+
+;; (s/conform :coffee/drink a-frappuccino)
 
 (def a-cappuccino
   {:coffee/milk {:coffee/volume 150
