@@ -118,11 +118,10 @@
    :order/quantity (rand-nth [1 1 1 1 2 2 3])})
 
 (defn gen-order []
-  (let [seed (rand-int 11)]
-    (condp < seed
-      9 [(gen-item) (gen-item) (gen-item)]
-      6 [(gen-item) (gen-item)]
-      [(gen-item)])))
+  (case (rand-int 11)
+    10 [(gen-item) (gen-item) (gen-item)]
+    (7 8 9) [(gen-item) (gen-item)]
+    [(gen-item)]))
 
 (gen-order)
 
