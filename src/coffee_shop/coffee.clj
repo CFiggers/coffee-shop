@@ -7,6 +7,8 @@
 (s/def :coffee/milk (s/keys :req [:coffee/volume
                                   :coffee/temp
                                   :coffee/taste]))
+(s/def :coffee/water (s/keys :req [:coffee/volume
+                                   :coffee/temp]))
 (s/def :coffee/brew (s/keys :req [:coffee/volume
                                   :coffee/temp
                                   :coffee/taste]))
@@ -30,12 +32,15 @@
 (s/def :coffee/cold-brew (s/and :coffee/brew
                                 #(> (% :coffee/volume) 190)
                                 #(< (% :coffee/temp) 50)))
-(s/def :coffee/drink-type #{:coffee/espresso
+(s/def :coffee/americano (s/keys :req [:coffee/espresso
+                                       :coffee/water]))
+(s/def :coffee/drink-type #{:coffee/americano
+                            :coffee/cappuccino
+                            :coffee/cold-brew
+                            :coffee/espresso
                             :coffee/latte
                             :coffee/mocha
-                            :coffee/pour-over
-                            :coffee/cappuccino
-                            :coffee/cold-brew})
+                            :coffee/pour-over})
 
 (defmacro make-fn [m]
   `(fn [& args#]
@@ -98,6 +103,15 @@
    :coffee/taste 10})
 
 ;; (s/conform :coffee/drink an-espresso)
+
+(def an-americano
+  {:coffee/espresso {:coffee/volume 70
+                     :coffee/temp 100
+                     :coffee/taste 10}
+   :coffee/water {:coffee/volume 100
+                  :coffee/temp 100}})
+
+;; (s/conform :coffee/drink an-americano)
 
 (s/describe :coffee/drink-type)
 
