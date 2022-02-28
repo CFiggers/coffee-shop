@@ -7,15 +7,15 @@
 (s/def :coffee/milk (s/keys :req [:coffee/volume
                                   :coffee/temp
                                   :coffee/taste]))
+(s/def :coffee/brew (s/keys :req [:coffee/volume
+                                  :coffee/temp
+                                  :coffee/taste]))
 (s/def :chocolate/type #{:white :dark :milk})
 (s/def :chocolate/taste :coffee/taste)
 (s/def :coffee/chocolate (s/keys :req [:chocolate/type
                                        :chocolate/taste]))
-(s/def :coffee/espresso (s/and
-                         (s/keys :req [:coffee/volume
-                                       :coffee/temp
-                                       :coffee/taste])
-                         #(< (% :coffee/volume) 100)))
+(s/def :coffee/espresso (s/and :coffee/brew
+                               #(< (% :coffee/volume) 100)))
 (s/def :coffee/latte (s/keys :req [:coffee/milk
                                    :coffee/espresso]))
 
@@ -24,14 +24,18 @@
 (s/def :coffee/cappuccino (s/and :coffee/latte
                                  #(< (:coffee/volume
                                       (% :coffee/milk)) 200)))
-(s/def :coffee/pour-over (s/keys :req [:coffee/volume
-                                       :coffee/temp
-                                       :coffee/taste]))
+(s/def :coffee/pour-over (s/and :coffee/brew
+                                #(> (% :coffee/volume) 190)
+                                #(> (% :coffee/temp) 50)))
+(s/def :coffee/cold-brew (s/and :coffee/brew
+                                #(> (% :coffee/volume) 190)
+                                #(< (% :coffee/temp) 50)))
 (s/def :coffee/drink-type #{:coffee/espresso
                             :coffee/latte
                             :coffee/mocha
                             :coffee/pour-over
-                            :coffee/cappuccino})
+                            :coffee/cappuccino
+                            :coffee/cold-brew})
 
 (defmacro make-fn [m]
   `(fn [& args#]
@@ -72,7 +76,7 @@
    :coffee/chocolate {:chocolate/taste 10
                       :chocolate/type :milk}})
 
-(s/conform :coffee/drink a-mocha)
+;; (s/conform :coffee/drink a-mocha)
 
 (def a-pourover
   {:coffee/volume 200
@@ -81,16 +85,19 @@
 
 ;; (s/conform :coffee/drink a-pourover)
 
+(def a-cold-brew
+  {:coffee/volume 200
+   :coffee/temp 49
+   :coffee/taste 10})
+
+;; (s/conform :coffee/drink a-cold-brew)
+
 (def an-espresso
   {:coffee/volume 70
    :coffee/temp 100
    :coffee/taste 10})
 
 ;; (s/conform :coffee/drink an-espresso)
-
-(s/conform :coffee/drink an-espresso)
-(s/conform :coffee/drink a-pourover)
-(s/conform :coffee/drink a-latte)
 
 (s/describe :coffee/drink-type)
 
