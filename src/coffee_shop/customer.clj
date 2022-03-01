@@ -112,3 +112,23 @@
             #(+ % (satisfaction-delta customer-after)))))
 
 (apply-satisfaction testcustomer-after)
+
+(defn gen-item []
+  {:order/item (rand-nth (vec (s/describe :coffee/drink-type)))
+   :order/quantity (rand-nth [1 1 1 1 2 2 3])})
+
+(defn gen-order []
+  (case (rand-int 11)
+    10 [(gen-item) (gen-item) (gen-item)]
+    (7 8 9) [(gen-item) (gen-item)]
+    [(gen-item)]))
+
+(gen-order)
+
+(defn gen-customer []
+  {:customer/order (gen-order)
+   :customer/satisfaction 50})
+
+(gen-customer)
+
+(take 3 (repeatedly gen-customer))
