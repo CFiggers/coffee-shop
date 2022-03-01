@@ -128,3 +128,7 @@
 (defn gen-customer []
   {:customer/order (gen-order)
    :customer/satisfaction 50})
+
+(gen-customer)
+
+(take 3 (repeatedly gen-customer))
