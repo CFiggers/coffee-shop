@@ -2,6 +2,41 @@
   (:gen-class)
   (:require [clojure.spec.alpha :as s]))
 
+;; TODO - A function for generating the starting state of a brand new
+;; coffee shop
+
+;; TODO - Tests
+
+;; TODO - A function for determining customer satisfaction from a day of
+;; coffee shop operation
+
+;; TODO - A function for recording a day of activity in the database
+
+;; TODO - A function for generating a number of new customers per shift
+;; based on the satisfaction from the previous day
+
+;; TODO - Some way for customer satisfaction to be impacted by the shop's
+;; ambiance
+
+;; TODO - A function for taking a list of newly-generated customers and
+;; matching them with baristas at the shop, balanced based on the 
+;; barista's relative speed and the size of each customer's order
+;; - TODO - A function for determining how long a customer's order will
+;;   take to fill based on its size/complexity
+;;   - TODO - A function for determining the complexity/time to fill of
+;;     an individual drink (maybe just part of the spec?)
+
+;; TODO - A function for taking a customer and a barista and creating a
+;; :customer/filled-order with some margin of error from the barista's
+;; accuracy rating
+;; - TODO - A function for increasing or decreasing the tastiness of an
+;;   order based on the quality of the equipment in the shop
+;; - TODO - A function for increasing or decreasing the tastiness of an
+;;   order based on the skill of the barista
+
+;; BIG TODO - Manager function for making automated decisions about day-
+;; to-day operations (especially, to start with, shift staffing)
+
 (defn run-shift [shift]
   (case shift
     :morning {:coffees (+ (rand-int 50) 75)}
@@ -11,7 +46,7 @@
 (defn run-day []
   {:morning (run-shift :morning)
    :afternoon (run-shift :afternoon)
-:evening (run-shift :evening)}) ;; => {:morning {:coffees 121}, :afternoon {:coffees 38}, :evening {:coffees 13}}
+   :evening (run-shift :evening)}) ;; => {:morning {:coffees 121}, :afternoon {:coffees 38}, :evening {:coffees 13}}
 
 
 (defn profit [{:keys [morning afternoon evening]}]
@@ -22,7 +57,7 @@
           (:coffees evening)))))
 
 ;; TODO -- Break this into multiple funcs
-(defn coffee-shop 
+(defn coffee-shop
   "1 difficulty = easy, 2 = medium, 3 = hard"
   [difficulty days]
   (if (and (< difficulty 4) (> difficulty 0))
