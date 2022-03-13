@@ -1,5 +1,6 @@
 (ns coffee-shop.shop
-  (:require [clojure.spec.alpha :as s]))
+  (:require [clojure.spec.alpha :as s]
+            [clojure.string :as st]))
 
 (s/def :equip/quality (s/and int?
                             #(< 0 %)
@@ -48,13 +49,22 @@
 ;; (s/valid? :shop/shop starting-shop) => true
 
 (defn equip-value [equip]
-  (* 100  (:equip/quality equip)))
+  (* 100 (:equip/quality equip)))
 
 (defn employee-value [emp]
   (let [speed (:barista/speed emp)
         skill (:barista/skill emp)
         accuracy (:barista/accuracy emp)]
   (* 1000 speed skill accuracy)))
+
+(defn gen-equip [& [quality]]
+  (let [q (or quality (inc (rand-int 10)))
+        t (first (shuffle (seq (s/describe :equip/type))))
+        nq (condp < q 9 "Perfect" 7 "Awesome" 5 "Great" 3 "Good" "Old")
+        nt (st/replace-first (name t) #"\-" " ")] 
+    {:equip/type t
+     :equip/name (str nq " " nt)
+     :equip/quality q}))
 
 (defn ambiance-value [amb]
   (* 1000 amb))
