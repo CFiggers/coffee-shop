@@ -35,10 +35,9 @@
    "Karisa" "Sherwynd" "Alida" "Hugo"])
 
 (defn gen-barista []
-  {:barista/name (barista-names (dec (rand-int 200)))
+  {:barista/name (barista-names (rand-int 200))
    :barista/skill (inc (rand-int 5))
    :barista/speed (inc (rand-int 5))
    :barista/accuracy (inc (rand-int 5))})
 
-(gen-barista)
-
+;; (gen-barista)
