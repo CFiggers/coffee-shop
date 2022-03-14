@@ -1,6 +1,7 @@
 (ns coffee-shop.shop
   (:require [clojure.spec.alpha :as s]
-            [clojure.string :as st]))
+            [clojure.string :as st]
+            [coffee-shop.barista :as barista]))
 
 (s/def :equip/quality (s/and int?
                              #(< 0 %)
@@ -78,5 +79,18 @@
          (apply + (map employee-value (vals employees)))
          (list (ambiance-value ambiance)
                cash)))
+
+(defn gen-shop [& [{:keys [staff equip ambiance cash]}]]
+  (let [s (or staff (barista/gen-barista))
+        e (or equip (gen-equip))
+        a (or ambiance (inc (rand-int 10)))
+        c (or cash (- 100000 (+ (employee-value s) (equip-value e) (ambiance-value a))))]
+    {:shop/employees {(:barista/name s) s}
+     :shop/equipments (vector e)
+     :shop/ambiance a
+     :shop/cash c}))
+
+;; TODO - Fix Out of Bounds exception on this
+(take 100 (repeatedly #(shop-value (gen-shop))))
 
 ;; (shop-value starting-shop) => 15500
