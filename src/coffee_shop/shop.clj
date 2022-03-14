@@ -84,7 +84,9 @@
   (let [s (or staff (barista/gen-barista))
         e (or equip (gen-equip))
         a (or ambiance (inc (rand-int 10)))
-        c (or cash (max 1000 (- 100000 (+ (employee-value s) (equip-value e) (ambiance-value a)))))]
+        c (or cash (max 1000 (- 100000 (+ (employee-value s)
+                                          (equip-value e)
+                                          (ambiance-value a)))))]
     {:shop/employees {(:barista/name s) s}
      :shop/equipments (vector e)
      :shop/ambiance a
