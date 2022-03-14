@@ -3,8 +3,8 @@
             [clojure.string :as st]))
 
 (s/def :equip/quality (s/and int?
-                            #(< 0 %)
-                            #(> 11 %)))
+                             #(< 0 %)
+                             #(> 11 %)))
 (s/def :equip/name string?)
 (s/def :equip/type #{:equip/espresso-machine
                      :equip/grinder
@@ -15,7 +15,7 @@
                                      :equip/quality]))
 (s/def :shop/equipments (s/coll-of :shop/equipment))
 
-(def old-espresso-machine 
+(def old-espresso-machine
   {:equip/type :equip/espresso-machine
    :equip/name "Old Espresso Machine"
    :equip/quality 5})
@@ -29,18 +29,18 @@
 
 (s/def :shop/employees (s/map-of string? :barista/barista))
 (s/def :shop/ambiance (s/and int?
-                            #(< 0 %)
-                            #(> 11 %)))
+                             #(< 0 %)
+                             #(> 11 %)))
 (s/def :shop/cash int?)
 (s/def :shop/shop (s/keys :req [:shop/employees
                                 :shop/equipments
                                 :shop/ambiance
                                 :shop/cash]))
 
-(def starting-shop 
-  {:shop/employees {"Ardelle" #:barista{:name "Ardelle", 
-                                        :skill 3, 
-                                        :speed 1, 
+(def starting-shop
+  {:shop/employees {"Ardelle" #:barista{:name "Ardelle",
+                                        :skill 3,
+                                        :speed 1,
                                         :accuracy 3}}
    :shop/equipments [old-espresso-machine]
    :shop/ambiance 5
@@ -55,13 +55,13 @@
   (let [speed (:barista/speed emp)
         skill (:barista/skill emp)
         accuracy (:barista/accuracy emp)]
-  (* 1000 speed skill accuracy)))
+    (* 1000 speed skill accuracy)))
 
-(defn gen-equip [& [quality]]
+(defn gen-equip [& [{:keys [quality type]}]]
   (let [q (or quality (inc (rand-int 10)))
-        t (first (shuffle (seq (s/describe :equip/type))))
-        nq (condp < q 9 "Perfect" 7 "Awesome" 5 "Great" 3 "Good" "Old")
-        nt (st/replace-first (name t) #"\-" " ")] 
+        t (or type (first (shuffle (seq (s/describe :equip/type)))))
+        nq (condp < q 9 "Flawless" 7 "Awesome" 5 "Great" 3 "Good" "Old")
+        nt (st/replace-first (name t) #"\-" " ")]
     {:equip/type t
      :equip/name (str nq " " nt)
      :equip/quality q}))
@@ -73,10 +73,10 @@
                           shop/equipments
                           shop/ambiance
                           shop/cash]}]
-    (apply +
-           (apply + (map equip-value equipments))
-           (apply + (map employee-value (vals employees)))
-           (list (ambiance-value ambiance)
-                 cash)))
+  (apply +
+         (apply + (map equip-value equipments))
+         (apply + (map employee-value (vals employees)))
+         (list (ambiance-value ambiance)
+               cash)))
 
 ;; (shop-value starting-shop) => 15500
