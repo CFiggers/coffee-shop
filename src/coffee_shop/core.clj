@@ -2,9 +2,6 @@
   (:gen-class)
   (:require [clojure.spec.alpha :as s]))
 
-;; TODO - A function for generating the starting state of a brand new
-;; coffee shop
-
 ;; TODO - Tests
 
 ;; TODO - A function for determining customer satisfaction from a day of
