@@ -31,7 +31,7 @@
   ;; TODO(#12): Make equipment quality impact drink tastiness
   ;;  A function for increasing or decreasing the tastiness of an order based on the quality of the equipment in the shop
 
-  ;; TODO: Make barista's skill impact drink tastiness
+  ;; TODO(#13): Make barista's skill impact drink tastiness
   ;;  A function for increasing or decreasing the tastiness of an order based on the skill of the barista
 
 ;; TODOO: BIG: Manager function for making automated decisions about day-to-day operations 
