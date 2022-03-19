@@ -13,7 +13,7 @@
 ;; TODO(#8): A function for generating a number of new customers per shift
 ;;  Should be based on the satisfaction from the previous day
 
-;; TODO: Some way for customer satisfaction to be impacted by the shop's ambiance
+;; TODO(#9): Some way for customer satisfaction to be impacted by the shop's ambiance
 
 ;; TODO: A function for taking a list of newly-generated customers and
 ;; matching them with baristas at the shop, balanced based on the 
