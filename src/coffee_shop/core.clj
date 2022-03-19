@@ -6,7 +6,7 @@
 
 ;; TODO(#5): Tests
 
-;; TODO: A function for determining customer satisfaction from a day of coffee shop operation
+;; TODO(#6): A function for determining customer satisfaction from a day of coffee shop operation
 
 ;; TODO: A function for recording a day of activity in the database
 
