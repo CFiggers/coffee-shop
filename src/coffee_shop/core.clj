@@ -8,7 +8,7 @@
 
 ;; TODO(#6): A function for determining customer satisfaction from a day of coffee shop operation
 
-;; TODO: A function for recording a day of activity in the database
+;; TODO(#7): A function for recording a day of activity in the database
 
 ;; TODO: A function for generating a number of new customers per shift
 ;;  Should be based on the satisfaction from the previous day
