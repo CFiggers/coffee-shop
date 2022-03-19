@@ -2,7 +2,6 @@
   (:gen-class)
   (:require [clojure.spec.alpha :as s]))
 
-;; TODO(#4): A function for generating the starting state of a brand new coffee shop
 
 ;; TODO(#5): Tests
 
