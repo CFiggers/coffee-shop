@@ -40,5 +40,4 @@
    :barista/speed (inc (rand-int 5))
    :barista/accuracy (inc (rand-int 5))})
 
-(gen-barista)
-
+;; (gen-barista)

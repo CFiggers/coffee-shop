@@ -5,7 +5,8 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [datascript "1.3.10"]
-                 [com.rpl/specter "1.1.3"]]
+                 [com.rpl/specter "1.1.3"]
+                 [org.clojure/test.check "0.9.0"]]
   :main ^:skip-aot coffee-shop.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
