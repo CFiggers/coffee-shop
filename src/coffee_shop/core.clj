@@ -22,7 +22,7 @@
   ;; TODO: A function for determining how long a customer's order will
   ;;  take to fill based on its size/complexity
 
-    ;; TODO: A function for determining the complexity/time to fill of an individual drink 
+    ;; TODO(#10): A function for determining the complexity/time to fill of an individual drink 
     ;;  Maybe just part of the spec?
 
 ;; TODO: A function for taking a customer and a barista and creating a :customer/filled-order 
