@@ -34,7 +34,7 @@
   ;; TODO(#13): Make barista's skill impact drink tastiness
   ;;  A function for increasing or decreasing the tastiness of an order based on the skill of the barista
 
-;; TODOO: BIG: Manager function for making automated decisions about day-to-day operations 
+;; TODOO(#14): BIG: Manager function for making automated decisions about day-to-day operations 
 ;;   Especially, to start with, shift staffing
 
 (defn run-shift [shift]
