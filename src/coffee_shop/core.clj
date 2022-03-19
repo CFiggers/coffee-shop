@@ -20,7 +20,7 @@
 ;;  matching them with baristas at the shop, balanced based on the 
 ;;  barista's relative speed and the size of each customer's order
 
-  ;; TODO: A function to determine order complexity
+  ;; TODO(#16): A function to determine order complexity
   ;;  A function for determining how long a customer's order will take to fill based on its size/complexity
   ;;  Needs ability to assess complexity of an individual drink
 
