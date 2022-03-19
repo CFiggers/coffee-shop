@@ -15,12 +15,14 @@
 
 ;; TODO(#9): Some way for customer satisfaction to be impacted by the shop's ambiance
 
-;; TODO: A function for taking a list of newly-generated customers and
-;; matching them with baristas at the shop, balanced based on the 
-;; barista's relative speed and the size of each customer's order
+;; TODO(#15): Functions that matches customers to baristas
+;;  A function for taking a list of newly-generated customers and
+;;  matching them with baristas at the shop, balanced based on the 
+;;  barista's relative speed and the size of each customer's order
 
-  ;; TODO: A function for determining how long a customer's order will
-  ;;  take to fill based on its size/complexity
+  ;; TODO: A function to determine order complexity
+  ;;  A function for determining how long a customer's order will take to fill based on its size/complexity
+  ;;  Needs ability to assess complexity of an individual drink
 
     ;; TODO(#10): A function for determining the complexity/time to fill of an individual drink 
     ;;  Maybe just part of the spec?
