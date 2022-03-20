@@ -9,8 +9,6 @@
 
 ;; TODO(#7): A function for recording a day of activity in the database
 
-;; TODO(#8): A function for generating a number of new customers per shift
-;;  Should be based on the satisfaction from the previous day
 
 ;; TODO(#9): Some way for customer satisfaction to be impacted by the shop's ambiance
 
