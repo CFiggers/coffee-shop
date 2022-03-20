@@ -38,16 +38,23 @@
 ;; TODOO(#14): BIG: Manager function for making automated decisions about day-to-day operations 
 ;;   Especially, to start with, shift staffing
 
+(s/def :shift/shift-time #{:shift/morning
+                           :shift/afternoon
+                           :shift/evening})
+
+(s/fdef run-shift
+  :args :shift/shift-time)
 (defn run-shift [shift]
   (case shift
-    :morning {:coffees (+ (rand-int 50) 75)}
-    :afternoon {:coffees (+ (rand-int 20) 30)}
-    :evening {:coffees (+ (rand-int 10) 10)}))
+    :shift/morning {:coffees (+ (rand-int 50) 75)}
+    :shift/afternoon {:coffees (+ (rand-int 20) 30)}
+    :shift/evening {:coffees (+ (rand-int 10) 10)}))
+
 
 (defn run-day []
-  {:morning (run-shift :morning)
-   :afternoon (run-shift :afternoon)
-   :evening (run-shift :evening)}) ;; => {:morning {:coffees 121}, :afternoon {:coffees 38}, :evening {:coffees 13}}
+  {:shift/morning (run-shift :shift/morning)
+   :shift/afternoon (run-shift :shift/afternoon)
+   :shift/evening (run-shift :shift/evening)}) ;; => {:morning {:coffees 121}, :afternoon {:coffees 38}, :evening {:coffees 13}}
 
 
 (defn profit [{:keys [morning afternoon evening]}]

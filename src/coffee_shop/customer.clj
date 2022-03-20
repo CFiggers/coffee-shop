@@ -72,8 +72,9 @@
                  (reduce +))
             (apply + (select [(walker :order/quantity) :order/quantity] order)))))))))
 
-(check-order-accurate testcustomer-after)
-(check-order-accuracy testcustomer-after)
+(comment (check-order-accurate testcustomer-after)
+
+         (check-order-accuracy testcustomer-after))
 
 ;; (defn get-leaves [in-map]
 ;;   (->> in-map
@@ -92,7 +93,7 @@
        (select [(walker :coffee/taste) :coffee/taste])
        (#(Math/round (double (/ (apply + %) (count %)))))))
 
-(check-order-quality testcustomer-after)
+(comment (check-order-quality testcustomer-after))
 
 ;; Update accuracy-factor to make missing or wrong drinks more or less
 ;; impactful to the customer's satisfaction.
@@ -103,7 +104,7 @@
           quality (check-order-quality customer-after)]
       (+ accuracy quality))))
 
-(satisfaction-delta testcustomer-after)
+(comment (satisfaction-delta testcustomer-after))
 
 (defn apply-satisfaction [customer-after]
   (when (customer-after :customer/filled-order)
@@ -111,7 +112,7 @@
             :customer/satisfaction
             #(+ % (satisfaction-delta customer-after)))))
 
-(apply-satisfaction testcustomer-after)
+(comment (apply-satisfaction testcustomer-after))
 
 (defn gen-item []
   {:order/item (rand-nth (vec (s/describe :coffee/drink-type)))
@@ -123,12 +124,27 @@
     (7 8 9) [(gen-item) (gen-item)]
     [(gen-item)]))
 
-(gen-order)
-
 (defn gen-customer []
   {:customer/order (gen-order)
    :customer/satisfaction 50})
 
-(gen-customer)
+(s/fdef gen-customers
+  :args :shift/shift-time)
+(defn gen-customers [shift & [last-satisf]]
+  (let [rand (- 5 (rand-int 10))
+        savg (case shift :shift/morning 18
+                   :shift/afternoon 28
+                   :shift/evening 21)]
+    (take (+ rand savg (or last-satisf 0)) (repeatedly gen-customer))))
 
-(take 3 (repeatedly gen-customer))
+(comment
+
+  (gen-order)
+
+  (gen-customer)
+
+  ;; Testing gen-customers
+  (->> (repeatedly #(count (gen-customers :shift/morning)))
+       (take 200)
+       frequencies
+       (sort-by key)))
