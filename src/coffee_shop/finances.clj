@@ -9,6 +9,6 @@
 
     ;; TODO(#20): A function for determining the monetary impact of serving each drink
 
-  ;; TODO: A function for determining the monetary impact of each barista
+  ;; TODO(#21): A function for determining the monetary impact of each barista
 
 ;; TODO: A function for determining the monetary impact of rent
