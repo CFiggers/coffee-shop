@@ -68,7 +68,9 @@
 (defn coffee-shop [{:keys [day
                            shop
                            last-results]}]
-  (let [up-shop (manager shop last-results)]
+  (let [up-shop (manager shop last-results)
+        day-run "Not implemented yet"
+        day-results "Not implemented yet"]
     {:day (inc day)
      :shop up-shop
      :last-results last-results}))
