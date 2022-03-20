@@ -1,3 +1,3 @@
 # Introduction to coffee-shop
 
-TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)
+TODO - write [great documentation](http://jacobian.org/writing/what-to-write/)

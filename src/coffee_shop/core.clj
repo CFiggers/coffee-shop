@@ -2,13 +2,11 @@
   (:gen-class)
   (:require [clojure.spec.alpha :as s]))
 
-
 ;; TODO(#5): Tests
 
 ;; TODO(#6): A function for determining customer satisfaction from a day of coffee shop operation
 
 ;; TODO(#7): A function for recording a day of activity in the database
-
 
 ;; TODO(#9): Some way for customer satisfaction to be impacted by the shop's ambiance
 
