@@ -1,6 +1,7 @@
 (ns coffee-shop.core
   (:gen-class)
-  (:require [clojure.spec.alpha :as s]))
+  (:require [clojure.spec.alpha :as s]
+            [coffee-shop.shop :as shop]))
 
 ;; TODO(#5): Tests
 
@@ -83,7 +84,26 @@
                        plusprofit))))))
     "Difficulty must be 1-3!"))
 
+(defn manager [shop last-results]
+  shop)
+
+(defn better-coffee-shop [{:keys [day
+                                  shop
+                                  last-results]}]
+  (let [up-shop (manager shop last-results)]
+    {:day (inc day)
+     :shop up-shop
+     :last-results last-results}))
+
+(defn init-state [difficulty]
+  {:day 1
+   :shop (shop/gen-shop)
+   :last-results {:satisfaction 50}})
+
 (defn -main
   "I don't do a whole lot ... yet."
   [difficulty days]
-  (println (coffee-shop (Integer. difficulty) (Integer. days))))
+  ;; (println (coffee-shop (Integer. difficulty) (Integer. days)))
+  (nth (iterate better-coffee-shop (init-state difficulty)) days))
+
+(-main 1 3)

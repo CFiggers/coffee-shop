@@ -32,10 +32,15 @@
 (s/def :shop/ambiance (s/and int?
                              #(< 0 %)
                              #(> 11 %)))
+(s/def :shop/size #{:shop/small 
+                    :shop/medium 
+                    :shop/large 
+                    :shop/huge})
 (s/def :shop/cash int?)
 (s/def :shop/shop (s/keys :req [:shop/employees
                                 :shop/equipments
                                 :shop/ambiance
+                                :shop/size
                                 :shop/cash]))
 
 (def starting-shop
@@ -45,6 +50,7 @@
                                         :accuracy 3}}
    :shop/equipments [old-espresso-machine]
    :shop/ambiance 5
+   :shop/size :shop/medium
    :shop/cash 1000})
 
 ;; (s/valid? :shop/shop starting-shop) => true
@@ -80,7 +86,9 @@
          (list (ambiance-value ambiance)
                cash)))
 
-(defn gen-shop [& [{:keys [staff equip ambiance cash]}]]
+(s/fdef gen-shop 
+        :ret :shop/shop)
+(defn gen-shop [& [{:keys [staff equip ambiance size cash]}]]
   (let [s (or staff (barista/gen-barista))
         e (or equip (gen-equip))
         a (or ambiance (inc (rand-int 10)))
@@ -90,8 +98,16 @@
     {:shop/employees {(:barista/name s) s}
      :shop/equipments (vector e)
      :shop/ambiance a
+     :shop/size :shop/small
      :shop/cash c}))
 
-;; (take 100 (repeatedly #(shop-value (gen-shop))))
+(comment 
 
-;; (shop-value starting-shop) => 15500
+  (take 100 (repeatedly #(shop-value (gen-shop))))
+
+  (shop-value starting-shop)
+
+  (s/valid? :shop/shop (gen-shop))
+  
+  )
+ 
