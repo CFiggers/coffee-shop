@@ -96,9 +96,10 @@
      :last-results last-results}))
 
 (defn init-state [difficulty]
-  {:day 1
-   :shop (shop/gen-shop)
-   :last-results {:satisfaction 50}})
+  (let [value (- 100000 (* 2000 (dec difficulty)))]
+    {:day 1
+     :shop (shop/gen-shop {:value value})
+     :last-results {:satisfaction 50}}))
 
 (defn -main
   "I don't do a whole lot ... yet."

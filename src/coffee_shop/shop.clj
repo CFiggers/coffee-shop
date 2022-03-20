@@ -32,9 +32,9 @@
 (s/def :shop/ambiance (s/and int?
                              #(< 0 %)
                              #(> 11 %)))
-(s/def :shop/size #{:shop/small 
-                    :shop/medium 
-                    :shop/large 
+(s/def :shop/size #{:shop/small
+                    :shop/medium
+                    :shop/large
                     :shop/huge})
 (s/def :shop/cash int?)
 (s/def :shop/shop (s/keys :req [:shop/employees
@@ -76,38 +76,49 @@
 (defn ambiance-value [amb]
   (* 1000 amb))
 
+(defn size-value [size]
+  (case size
+    :shop/small 1000
+    :shop/medium 2000
+    :shop/large 3000
+    :shop/huge 4000
+    0))
+
 (defn shop-value [{:keys [shop/employees
                           shop/equipments
                           shop/ambiance
+                          shop/size
                           shop/cash]}]
   (apply +
          (apply + (map equip-value equipments))
          (apply + (map employee-value (vals employees)))
          (list (ambiance-value ambiance)
+               (size-value size)
                cash)))
 
-(s/fdef gen-shop 
-        :ret :shop/shop)
-(defn gen-shop [& [{:keys [staff equip ambiance size cash]}]]
-  (let [s (or staff (barista/gen-barista))
+(s/fdef gen-shop
+  :ret :shop/shop)
+(defn gen-shop [& [{:keys [staff equip ambiance size cash value]}]]
+  (let [v (or value 100000)
+        s (or staff (barista/gen-barista))
         e (or equip (gen-equip))
         a (or ambiance (inc (rand-int 10)))
-        c (or cash (max 1000 (- 100000 (+ (employee-value s)
-                                          (equip-value e)
-                                          (ambiance-value a)))))]
+        z (or size :shop/small)
+        c (or cash (max 1000 (- v (+ (employee-value s)
+                                     (equip-value e)
+                                     (size-value z)
+                                     (ambiance-value a)))))]
     {:shop/employees {(:barista/name s) s}
      :shop/equipments (vector e)
      :shop/ambiance a
-     :shop/size :shop/small
+     :shop/size z
      :shop/cash c}))
 
-(comment 
+(comment
 
   (take 100 (repeatedly #(shop-value (gen-shop))))
 
   (shop-value starting-shop)
 
-  (s/valid? :shop/shop (gen-shop))
-  
-  )
- 
+  (s/valid? :shop/shop (gen-shop)))
+
