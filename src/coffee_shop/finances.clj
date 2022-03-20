@@ -3,7 +3,7 @@
 
 ;; TODO(#17): A function for determining the monetary impact of a day
 
-  ;; TODO: A function for determining the monetary impact of a shift
+  ;; TODO(#18): A function for determining the monetary impact of a shift
 
     ;; TODO: A function for determining the monetary impact of each order/customer
 
