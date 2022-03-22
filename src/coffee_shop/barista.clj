@@ -34,6 +34,9 @@
    "Christine" "Nickie" "Hamil" "Neysa" "Fidelia" "Merla" "Pansie" "Carolus" "Rochell" "Giovanna"
    "Karisa" "Sherwynd" "Alida" "Hugo"])
 
+(s/fdef gen-barista
+  :args nil?
+  :ret :barista/barista)
 (defn gen-barista []
   {:barista/name (barista-names (rand-int 200))
    :barista/skill (inc (rand-int 5))

@@ -35,6 +35,12 @@
 ;; TODOO(#14): BIG: Manager function for making automated decisions about day-to-day operations 
 ;;   Especially, to start with, shift staffing
 
+(s/def :core/day int?)
+(s/def :core/last-results (s/keys :req [:customer/satisfaction]))
+(s/def :core/state (s/keys :req [:core/day
+                                 :shop/shop
+                                 :core/last-results]))
+
 (s/def :shift/shift-time #{:shift/morning
                            :shift/afternoon
                            :shift/evening})
@@ -47,12 +53,10 @@
     :shift/afternoon {:coffees (+ (rand-int 20) 30)}
     :shift/evening {:coffees (+ (rand-int 10) 10)}))
 
-
 (defn run-day []
   {:shift/morning (run-shift :shift/morning)
    :shift/afternoon (run-shift :shift/afternoon)
    :shift/evening (run-shift :shift/evening)}) ;; => {:morning {:coffees 121}, :afternoon {:coffees 38}, :evening {:coffees 13}}
-
 
 (defn profit [{:keys [morning afternoon evening]}]
   (let [coffee-price 5]
@@ -75,11 +79,16 @@
      :shop up-shop
      :last-results last-results}))
 
+(s/fdef init-state
+  :args (s/and int?
+               #(< % 4)
+               #(> % 0))
+  :ret :core/state)
 (defn init-state [difficulty]
   (let [value (- 100000 (* 2000 (dec difficulty)))]
-    {:day 1
-     :shop (shop/gen-shop {:value value})
-     :last-results {:satisfaction 50}}))
+    {:core/day 1
+     :shop/shop (shop/gen-shop {:value value})
+     :core/last-results {:customer/satisfaction 50}}))
 
 (defn -main
   "I don't do a whole lot ... yet."
@@ -88,7 +97,6 @@
   (if (and (< difficulty 4) (> difficulty 0))
     (nth (iterate coffee-shop (init-state difficulty)) days)
     "Difficulty must be 1-3!"))
-
 
 ;; (defn depricated-coffee-shop
 ;;   "1 difficulty = easy, 2 = medium, 3 = hard"
